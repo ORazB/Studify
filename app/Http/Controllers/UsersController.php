@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+// Users Table
+use App\Models\Users;
+
 class UsersController extends Controller
 {
     /**
@@ -11,7 +14,8 @@ class UsersController extends Controller
      */
     public function index()
     {
-        //
+        $users = Users::all();
+        return view('users.index', compact('users'));
     }
 
     /**
@@ -19,7 +23,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        //
+        return view('register');
     }
 
     /**
@@ -27,7 +31,13 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Users::create([
+            'username' => $request->username,
+            'password' => bcrypt($request->password),
+            'role' => $request->role,
+        ]);
+
+        return redirect()->route('login')->with('success', 'User registered successfully.');
     }
 
     /**
