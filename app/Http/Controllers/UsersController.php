@@ -31,13 +31,20 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        Users::create([
-            'username' => $request->username,
-            'password' => bcrypt($request->password),
-            'role' => $request->role,
+
+        $validated = $request->validate([
+            'username' => 'required|string|max:255|unique:users,username',
+            'password' => 'required|string|max:22',
+            'role' => 'required|string|max:10'
         ]);
 
-        return redirect()->route('login')->with('success', 'User registered successfully.');
+        Users::create([
+            'username' => $validated['username'],
+            'password' => bcrypt($validated['password']),
+            'role' => $validated('role'),
+        ]);
+
+        return redirect()->route('login')->with('success', 'User registered Successfully.');
     }
 
     /**
@@ -53,7 +60,8 @@ class UsersController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $user = Users::findOrFail($id);
+        return view('users.edit', compact('user'));
     }
 
     /**
@@ -61,7 +69,14 @@ class UsersController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $user = Users::findorFail($id);
+        $user->update([
+            'username' => $request->username,
+            'password' => bcrypt($request->password),
+            'role' => $request->role
+        ]);
+
+        return redirect()->route('users.index')->with('success', 'User updated successfully.');
     }
 
     /**
@@ -69,6 +84,9 @@ class UsersController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user = Users::findOrFail($id);
+        $user->delete();
+
+        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
     }
 }
