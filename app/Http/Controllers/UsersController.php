@@ -41,7 +41,7 @@ class UsersController extends Controller
         Users::create([
             'username' => $validated['username'],
             'password' => bcrypt($validated['password']),
-            'role' => $validated('role'),
+            'role' => $validated['role'],
         ]);
 
         return redirect()->route('login')->with('success', 'User registered Successfully.');
