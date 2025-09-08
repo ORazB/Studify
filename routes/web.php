@@ -25,6 +25,10 @@ Route::get('/login', function () {
     return view('login');
 })->name('login');
 
+Route::get('/create', function () {
+    return view('Users/create');
+})->name('create');
+
 // Users Routes
 Route::resource('users', UsersController::class);
 
