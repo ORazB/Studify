@@ -17,7 +17,7 @@
 
 <body>
 
-    <section class="register bg-[#7be3cf]">
+    <section class="register bg-gradient-to-b from-teal-200 to-[#E7F1FF]">
         <div class="container w-[80%] max-w-4xl mx-auto min-h-screen flex items-center justify-center">
 
             <div class="bg grid grid-cols-[40%_60%] rounded-2xl">
@@ -32,10 +32,10 @@
 
                     <div class="button_cta flex gap-3">
                         <button type="button"
-                            class="w-full mb-3 bg-[#7be3cf] text-white font-medium rounded-full py-2 shadow-xs"></box-icon>
+                            class="w-full mb-3 bg-[#7be3cf] text-white font-medium rounded-full py-2 shadow-xl"></box-icon>
                             <box-icon class="align-middle" size="sm" color="#fff" type="logo" name="google"></box-icon> Sign up with Google
                         </button>
-                        <button type="button" class="w-full mb-3 bg-[#ccece6] font-medium rounded-full py-2 shadow">
+                        <button type="button" class="w-full mb-3 bg-[#ccece6] font-medium rounded-full py-2 shadow-xl">
                             <box-icon class="align-middle" size="sm" color="#000" type="logo" name="github"></box-icon> Sign up with Github
                         </button>
                     </div>
@@ -47,7 +47,7 @@
                         <div class="forms_input my-2">
                             <h3 class="p-2 font-semibold">Username</h3>
                             <input type="text" name="username" value="{{ old('username') }}" placeholder="..."
-                                class="w-full rounded-full px-4 py-3 bg-[#ccece6]" />
+                                class="w-full rounded-full px-4 py-3 bg-[#ccece6] shadow-xl" />
                             @error('username')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
@@ -56,7 +56,7 @@
                         <div class="forms_input mb-2">
                           <h3 class="p-2 font-semibold">Password</h3>
                             <input type="password" name="password" placeholder="..."
-                                class="w-full rounded-full px-4 py-3 bg-[#ccece6]" />
+                                class="w-full rounded-full px-4 py-3 bg-[#ccece6] shadow-xl" />
                             @error('password')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
@@ -65,7 +65,7 @@
                         <div class="forms_input mb-4">
                           <h3 class="p-2 font-semibold">Role</h3>
                             <select name="role"
-                                class="w-full rounded-full px-4 py-3 bg-[#ccece6] appearance-none focus:outline-none focus:ring-2 focus:ring-[#ccece6]">
+                                class="w-full rounded-full px-4 py-3 bg-[#ccece6] appearance-none focus:outline-none focus:ring-2 focus:ring-[#ccece6] shadow-xl">
                                 <option value="">--Choose Your Role--</option>
                                 <option value="admin">Admin</option>
                                 <option value="student">Student</option>
@@ -76,12 +76,12 @@
                         </div>
 
                         <div class="flex items-center mb-4">
-                            <input type="checkbox" name="terms" class="mr-2">
-                            <span class="text-sm">I Agree to all terms and Privacy Policy</span>
+                            <input type="checkbox" name="terms" class="mr-2 align-middle">
+                            <span class="text-sm font-medium">I Agree to all terms and Privacy Policy</span>
                         </div>
 
                         <button type="submit"
-                            class="w-full bg-black text-white rounded-full py-2 shadow">Register</button>
+                            class="w-full bg-black text-white rounded-full py-2 shadow cursor-pointer">Register</button>
                     </form>
 
                     <p class="mt-4 text-sm text-gray-600 font-medium text-shadow">

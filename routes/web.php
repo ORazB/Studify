@@ -21,6 +21,10 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
+Route::get('/login', function () {
+    return view('login');
+})->name('login');
+
 // Users Routes
 Route::resource('users', UsersController::class);
 
