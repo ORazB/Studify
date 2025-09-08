@@ -27,4 +27,4 @@ Route::resource('users', UsersController::class);
 // Auth Routes
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
-Route::post('/login', [LoginController::class, 'login']);
+Route::post('/login', action: [LoginController::class, 'login']);
