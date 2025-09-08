@@ -24,7 +24,7 @@
 
                 <div class="bg-white rounded-bl-3xl rounded-tl-3xl">
                     <img class="w-full h-full object-cover rounded-3xl"
-                        src="/images/login.jpg" alt="">
+                        src="/images/login.jpeg" alt="">
                 </div>
 
                 <div class="bg-white rounded-tr-2xl rounded-br-2xl forms flex flex-col justify-center px-11 py-10">
