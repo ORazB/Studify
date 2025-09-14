@@ -5,6 +5,7 @@ namespace App\View\Components;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use App\Models\Users;
 
 class Header extends Component
 {
@@ -21,6 +22,7 @@ class Header extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.header');
+        $user = Users::findOrFail(session('user_id'));
+        return view('components.header', compact('user'));
     }
 }
