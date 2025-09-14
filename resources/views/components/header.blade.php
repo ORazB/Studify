@@ -4,17 +4,18 @@
 
     <div class="flex items-center gap-4 cursor-pointer">
       <img 
-        src="/images/profile.jpg" 
+        src="{{ $user->profile_photo ?? '/images/profile.jpg' }}" 
         alt="Profile picture" 
         class="w-10 h-10 rounded-xl object-cover"
       >
       <div class="flex flex-col items-center">
-        @if (session()->has('username'))
-          <p class="text-base font-semibold">{{ session('username') }}</p>
+        @if ($user)
+          <p class="text-base font-semibold">{{ $user->username }}</p>
+          <p class="text-sm text-gray-300">{{ $user->role ?? 'Admin' }}</p>
         @else
           <p class="text-base">Guest</p>
+          <p class="text-sm text-gray-300">Admin</p>
         @endif
-        <p class="text-sm text-gray-300">Admin</p>
       </div>
     </div>
   </div>

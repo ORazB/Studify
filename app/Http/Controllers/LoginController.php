@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Users;
+use App\Models\Students;
 
 class LoginController extends Controller
 {
@@ -25,7 +26,13 @@ class LoginController extends Controller
                 'role' => $user->role,
             ]);
 
-            return redirect()->route('users.index');
+            if ($user->role === 'admin') {
+                return redirect()->route(route: 'users.index');
+            } else if ($user->role === 'student') {
+                return redirect()->route('students.create');
+            } else {
+                return back()->with('error', 'Role not recognized');
+            }
         }
 
         return back()->with('error', 'Invalid credentials');

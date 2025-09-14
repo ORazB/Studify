@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-// Users Table
+use Illuminate\Support\Facades\Route;
+// Models
 use App\Models\Users;
+use App\Models\Student;
+use App\Models\Spp;
+use App\Models\Payment;
+use App\Models\ClassModel;
 
 class UsersController extends Controller
 {
@@ -17,13 +21,12 @@ class UsersController extends Controller
         $users = Users::all();
         return view('users.index', compact('users'));
     }
-
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('register');
+        return view('users.create');
     }
 
     /**
@@ -44,7 +47,11 @@ class UsersController extends Controller
             'role' => $validated['role'],
         ]);
 
-        return redirect()->route('login')->with('success', 'User registered Successfully.');
+        if (Route::currentRouteName() == "users.store") {
+            return redirect()->route('users.index')->with('success', 'User Added Successfully.');
+        } else {
+            return redirect()->back();
+        }
     }
 
     /**
@@ -76,7 +83,11 @@ class UsersController extends Controller
             'role' => $request->role
         ]);
 
-        return redirect()->route('users.index')->with('success', 'User updated successfully.');
+        if (Route::currentRouteName() == "users.store") {
+            return redirect()->route('users.index')->with('success', 'User Added Successfully.');
+        } else {
+            return redirect()->back();
+        }
     }
 
     /**
