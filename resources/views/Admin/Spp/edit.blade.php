@@ -105,12 +105,13 @@
                     <label for="status" class="block text-sm font-semibold text-gray-700 mb-1">Status : </label>
                     <select name="status" id="status" required
                         class="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-700
-                               focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition duration-200">
-                        <option value="Paid">Paid</option>
-                        <option value="Pending">Pending</option>
-                        <option value="Unpaid">Unpaid</option>
+               focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition duration-200">
+                        <option value="Paid" {{ $spp->status == 'Paid' ? 'selected' : '' }}>Paid</option>
+                        <option value="Pending" {{ $spp->status == 'Pending' ? 'selected' : '' }}>Pending</option>
+                        <option value="Unpaid" {{ $spp->status == 'Unpaid' ? 'selected' : '' }}>Unpaid</option>
                     </select>
                 </div>
+
 
                 <!-- Buttons -->
                 <div class="flex justify-center space-x-4 pt-6">
