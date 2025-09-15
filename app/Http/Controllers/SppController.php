@@ -113,7 +113,7 @@ class SppController extends Controller
         $spp->delete();
     
         return redirect()->back()->with('success', 'SPP berhasil dihapus.');
-    }
+}
     
     
 }

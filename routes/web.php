@@ -52,7 +52,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // Payments
     Route::get('payments', [AdminController::class, 'paymentIndex'])->name('payments.index');
-    Route::get('payments/create', [AdminController::class, 'paymentCreate'])->name('payments.create');
+    Route::get('payments/create', action: [AdminController::class, 'paymentCreate'])->name('payments.create');
     Route::get('payments/{id}/edit', [AdminController::class, 'paymentEdit'])->name('payments.edit');
 
     // Classes

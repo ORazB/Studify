@@ -34,8 +34,6 @@ class PaymentController extends Controller
     {
         // Validation rules
 
-        // Check if SPP belongs to the selected student
-
         // Create the payment
         Payment::create([
             'student_id' => $request->student_id,
@@ -58,7 +56,7 @@ class PaymentController extends Controller
     }
 
     /**
- * Display the specified resource.
+     * Display the specified resource.
      */
     public function show(Payment $payment)
     {
@@ -89,61 +87,18 @@ class PaymentController extends Controller
      */
     public function update(Request $request, Payment $payment)
     {
-        // Validation rules
-        $validator = Validator::make($request->all(), [
-            'student_id' => 'required|exists:students,id',
-            'spp_id' => 'nullable|exists:spp,id',
-            'amount_paid' => 'required|integer|min:1000',
-            'payment_date' => 'required|date|before_or_equal:today',
-        ], [
-            'student_id.required' => 'Please select a student.',
-            'student_id.exists' => 'The selected student does not exist.',
-            'spp_id.exists' => 'The selected SPP record does not exist.',
-            'amount_paid.required' => 'Payment amount is required.',
-            'amount_paid.integer' => 'Payment amount must be a number.',
-            'amount_paid.min' => 'Payment amount must be at least Rp 1,000.',
-            'payment_date.required' => 'Payment date is required.',
-            'payment_date.date' => 'Please enter a valid date.',
-            'payment_date.before_or_equal' => 'Payment date cannot be in the future.',
+        // Update the payment
+        $payment->update([
+            'status' => 'paid',
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
+        // Update the related SPP
+        $spp = Spp::findOrFail($payment->spp_id);
+        $spp->update([
+            'status' => 'paid'
+        ]);
 
-        // Additional validation: Check if SPP belongs to the selected student
-        if ($request->spp_id) {
-            $spp = Spp::find($request->spp_id);
-            if ($spp && $spp->student_id != $request->student_id) {
-                return redirect()->back()
-                    ->withErrors(['spp_id' => 'The selected SPP does not belong to the chosen student.'])
-                    ->withInput();
-            }
-        }
-
-        try {
-            // Update the payment
-            $payment->update([
-                'student_id' => $request->student_id,
-                'spp_id' => $request->spp_id,
-                'amount_paid' => $request->amount_paid,
-                'payment_date' => $request->payment_date,
-            ]);
-
-            // Get student name for success message
-            $student = Student::find($request->student_id);
-            $studentName = $student ? $student->name : 'Unknown Student';
-
-            return redirect()->route('admin.payments.index')
-                ->with('success', "Payment for {$studentName} has been updated successfully.");
-
-        } catch (\Exception $e) {
-            return redirect()->back()
-                ->withErrors(['error' => 'Failed to update payment. Please try again.'])
-                ->withInput();
-        }
+        return redirect()->route('admin.payments.index');
     }
 
     /**

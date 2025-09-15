@@ -191,10 +191,16 @@
 
                                     <!-- Actions -->
                                     <div class="flex justify-center items-center gap-2">
-                                        <a href="{{ route('payments.store', ['student_id' => $payment->student_id]) }}"
-                                            class="bg-green-500 text-white py-2 mt-3 px-3 rounded-lg text-sm font-medium hover:bg-green-800 transition-colors">
-                                            Approve
-                                        </a>
+                                        <form action="{{ route('payments.update', $payment) }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <button type="submit"
+                                                class="bg-green-500 text-white py-2 mt-3 px-3 rounded-lg text-sm font-medium hover:bg-green-800 transition-colors">
+                                                Approve
+                                            </button>
+                                        </form>
+
+
                                     </div>
                                 </div>
 
@@ -205,18 +211,18 @@
                 @endforeach
             </div>
 
-            @if ($payments->isEmpty())
+            @if ($payments->where('status', 'paid')->count() == $payments->count())
                 <div class="ml-8 mr-8 text-center py-16">
                     <div class="text-gray-400 mb-4">
                         <i class='bx bx-credit-card text-8xl'></i>
                     </div>
                     <h3 class="text-xl font-medium text-gray-600 mb-2">No Payment Records</h3>
-                    <p class="text-gray-500">No payment records have been created yet.</p>
-                    <a href="{{ route('admin.payments.create') }}"
+                    <p class="text-gray-500">No payment records can be managed.</p>
+                    {{-- <a href="{{ route('admin.payments.create') }}"
                         class="mt-4 inline-flex items-center gap-2 bg-teal-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-green-800 transition-colors">
                         <i class='bx bx-plus'></i>
-                        Create First Payment
-                    </a>
+                        Create Payment
+                    </a> --}}
                 </div>
             @endif
         </div>
