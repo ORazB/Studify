@@ -91,7 +91,8 @@ class SppController extends Controller
             'year' => $request->year,
             'month' => $request->month,
             'student_id' => $request->student,
-            'nominal' => $request->nominal
+            'nominal' => $request->nominal,
+            'status' => $request->status
         ]);
     
         return redirect()->route('admin.spp.index')->with('success', 'SPP berhasil diperbarui.');

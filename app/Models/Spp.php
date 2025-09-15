@@ -13,6 +13,7 @@ class Spp extends Model
         'year',
         'month',
         'nominal',
+        'status',
     ];
 
     // Relationships

@@ -12,7 +12,7 @@
     <section class="edit bg-gradient-to-br from-teal-100 to-gray-100 flex items-center justify-center min-h-screen p-4">
         <div
             class="container bg-white p-8 rounded-2xl shadow-lg w-full max-w-2xl transition-all duration-300 hover:shadow-xl">
-            
+
             <!-- Heading -->
             <h1 class="text-3xl font-bold text-gray-800 mb-3 text-center">Edit SPP</h1>
             <div class="line w-20 h-1 bg-teal-500 mx-auto mb-6 rounded-full"></div>
@@ -58,7 +58,8 @@
                             ];
                         @endphp
                         @foreach ($months as $value => $label)
-                            <option value="{{ $value }}" {{ old('month', $spp->month) == $value ? 'selected' : '' }}>
+                            <option value="{{ $value }}"
+                                {{ old('month', $spp->month) == $value ? 'selected' : '' }}>
                                 {{ $label }}
                             </option>
                         @endforeach
@@ -76,7 +77,7 @@
                                focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition duration-200">
                         <option value="" disabled>-- Pilih Siswa --</option>
                         @foreach ($students as $student)
-                            <option value="{{ $student->student_id }}" 
+                            <option value="{{ $student->student_id }}"
                                 {{ old('student', $spp->student_id) == $student->student_id ? 'selected' : '' }}>
                                 {{ $student->name }}
                             </option>
@@ -97,6 +98,18 @@
                     @error('nominal')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
+                </div>
+
+                <!-- Status -->
+                <div>
+                    <label for="status" class="block text-sm font-semibold text-gray-700 mb-1">Status : </label>
+                    <select name="status" id="status" required
+                        class="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-700
+                               focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition duration-200">
+                        <option value="Paid">Paid</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Unpaid">Unpaid</option>
+                    </select>
                 </div>
 
                 <!-- Buttons -->
