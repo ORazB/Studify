@@ -49,7 +49,7 @@ class StudentsController extends Controller
             'nis' => 'required|string|max:50|unique:students,nis',
             'address' => 'nullable|string',
             'phone_number' => 'nullable|string|max:20',
-            'foto' => 'nullable|image|max:2048',
+            'foto' => 'required|image|max:2048',
             'class_id' => 'required|exists:classes,class_id',
         ]);
 
@@ -73,10 +73,10 @@ class StudentsController extends Controller
 
         $user = Users::find(session('user_id'));
 
-        if ($user && $user->role !== "student") {
+        if ($user->role == "student") {
             return redirect()->route('students.index')->with('success', 'Student created successfully.');
         } else {
-            // Handle student role redirect - you might want to redirect to dashboard
+            // Handle student role redirect
             return redirect()->route('admin.students.index')->with('success', 'Profile created successfully.');
         }
     }

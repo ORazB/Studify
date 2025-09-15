@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 
-@if (!session('role') == 'student')
+{{-- @if (!session('role') == 'student')
     <script>
         window.location.href = '/login';
         alert('You do not have access to this page.');
     </script>
-@endif
+@endif --}}
 
 <head>
     <meta charset="UTF-8">

@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 
-@if (!session('role') == 'admin')
+{{-- @if (session('role') != 'admin')
     <script>
-        window.location.href = '/login';
+        window.location.href = '/logout';
+        alert('Access denied. Admins only.');
     </script>
-@endif
+@endif --}}
 
 <head>
     <meta charset="UTF-8">

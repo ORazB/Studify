@@ -40,7 +40,7 @@
                         </button>
                     </div>
 
-                    {{-- Form starts here --}}
+                    {{-- Form --}}
                     <form action="{{ route('login') }}" method="POST">
                         @csrf
 

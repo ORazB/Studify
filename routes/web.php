@@ -13,53 +13,69 @@ Route::get('/', function () {
     return view('register');
 });
 
-Route::get('/test', function () {
-    return view('test');
-});
-
 Route::get('/register', function () {
     return view('register');
 })->name('register');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->name('dashboard');
 
-Route::get('/login', function () {
-    return view('login');
-})->name('login');
+// Route::get('/create', function () {
+//     return view('Users/create');
+// })->name('create');
 
-Route::get('/create', function () {
-    return view('Users/create');
-})->name('create');
+// ----------------------
+// Authentication Routes
+// ----------------------
+Route::post('/users', [UsersController::class, 'store'])->name('users.store');
 
-// Users Routes
-Route::resource('users', UsersController::class);
-Route::resource('students', StudentsController::class);
-Route::resource('payments', PaymentController::class);
-Route::resource('spp', SppController::class);
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::prefix('admin')->name('admin.')->group(function () {
-    // Students
-    Route::get('students', [AdminController::class, 'studentIndex'])->name('students.index');
-    Route::get('students/create', [AdminController::class, 'studentCreate'])->name('students.create');
-    Route::get('students/{id}/edit', [AdminController::class, 'studentEdit'])->name('students.edit');
-
-    // SPP
-    Route::get('spp', [AdminController::class, 'sppIndex'])->name('spp.index');
-    Route::get('spp/create', [AdminController::class, 'sppCreate'])->name('spp.create');
-    Route::get('spp/{id}/edit', [AdminController::class, 'sppEdit'])->name('spp.edit');
-
-    // Payments
-    Route::get('payments', [AdminController::class, 'paymentIndex'])->name('payments.index');
-    Route::get('payments/create', action: [AdminController::class, 'paymentCreate'])->name('payments.create');
-    Route::get('payments/{id}/edit', [AdminController::class, 'paymentEdit'])->name('payments.edit');
-
-    // Classes
-    Route::get('classes', [AdminController::class, 'classIndex'])->name('classes.index');
+// ----------------------
+// Admin Routes
+// ----------------------
+Route::middleware('role:admin')->group(function () {
+    Route::get('users', [UsersController::class, 'index'])->name('users.index');
+    Route::get('users/create', [UsersController::class, 'create'])->name('users.create');
+    Route::get('users/{id}/edit', [UsersController::class, 'edit'])->name('users.edit');
+    Route::put('users/{id}', [UsersController::class, 'update'])->name('users.update');
+    Route::delete('users/{id}', [UsersController::class, 'destroy'])->name('users.destroy');
 });
 
-// Auth Routes
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
-Route::post('/login', action: [LoginController::class, 'login']);
+
+Route::prefix('admin')
+    ->name('admin.')
+    ->middleware('role:admin')
+    ->group(function () {
+
+        // Jaga2
+        Route::resource('students', StudentsController::class);
+        Route::resource('payments', PaymentController::class);
+        Route::resource('spp', SppController::class);
+
+        Route::get('students', [AdminController::class, 'studentIndex'])->name('students.index');
+        Route::get('students/create', [AdminController::class, 'studentCreate'])->name('students.create');
+        Route::get('students/{id}/edit', [AdminController::class, 'studentEdit'])->name('students.edit');
+
+        Route::get('spp', [AdminController::class, 'sppIndex'])->name('spp.index');
+        Route::get('spp/create', [AdminController::class, 'sppCreate'])->name('spp.create');
+        Route::get('spp/{id}/edit', [AdminController::class, 'sppEdit'])->name('spp.edit');
+
+        Route::get('payments', [AdminController::class, 'paymentIndex'])->name('payments.index');
+        Route::get('payments/create', [AdminController::class, 'paymentCreate'])->name('payments.create');
+        Route::get('payments/{id}/edit', [AdminController::class, 'paymentEdit'])->name('payments.edit');
+
+        Route::get('classes', [AdminController::class, 'classIndex'])->name('classes.index');
+    });
+
+// ----------------------
+// Student Routes
+// ----------------------
+Route::middleware('role:student')->group(function () {
+    Route::resource('students', StudentsController::class);
+    Route::resource('payments', PaymentController::class);
+    Route::resource('spp', SppController::class);
+});

@@ -1,3 +1,10 @@
+{{-- @if (session('role') != 'admin')
+    <script>
+        window.location.href = '/logout';
+        alert('Access denied. Admins only.');
+    </script>
+@endif --}}
+
 @php
     $student = $students->first();
 @endphp

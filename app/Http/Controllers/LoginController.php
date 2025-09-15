@@ -19,6 +19,11 @@ class LoginController extends Controller
 
         if($user && password_verify($request->password, $user->password)) {
             
+            $request->validate([
+                'username' => 'required|string',
+                'password' => 'required|string',
+            ]);
+
             // Store Session
             session([
                 'user_id' => $user->user_id,
