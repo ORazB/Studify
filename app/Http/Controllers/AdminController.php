@@ -88,7 +88,11 @@ class AdminController extends Controller
     public function paymentIndex()
     {
         $payments = Payment::all();
-        return view('admin.payment.index', compact('payments'));
+        $students = Student::all();
+
+        $studentMap = $students->keyBy('student_id');
+
+        return view('admin.payment.index', compact('payments', 'studentMap'));
     }
 
     public function paymentCreate()
