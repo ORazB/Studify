@@ -165,15 +165,18 @@
                                             class="bg-teal-100 text-teal-700 py-2 px-3 rounded-lg text-sm font-medium hover:bg-teal-200 transition-colors">
                                             Edit SPP
                                         </a>
-                                        <form action="{{ route('spp.destroy', $student->spp) }}" method="POST"
+                                        <form action="{{ route('spp.destroy', $student->spp) }}"method="POST"
                                             onsubmit="return confirm('Delete this SPP record?')">
                                             @csrf
                                             @method('DELETE')
+                                            <input type="hidden" name="student" value="{{ $student->student_id }}">
+
                                             <button type="submit"
                                                 class="bg-red-100 text-red-700 py-2 px-3 rounded-lg text-sm font-medium hover:bg-red-200 transition-colors">
                                                 Delete SPP
                                             </button>
                                         </form>
+
                                     </div>
                                 </div>
                             @else
@@ -185,7 +188,7 @@
                                     <p class="text-gray-500 text-sm mb-4">This student doesn't have an SPP record yet.
                                     </p>
                                     <a href="{{ route('admin.spp.create', ['student_id' => $student->id]) }}"
-                                        class="bg-teal-700 text-white py-2 px-4 rounded-lg text-sm font-medium hover:bg-teal-800 transition-colors inline-flex items-center gap-2">
+                                        class="bg-teal-700 text-white py-2 px-4 rounded-lg text-sm font-medium hover:bg-teal-800 transition-colors inline-flex text-center items-center">
                                         <i class='bx bx-plus'></i> Create SPP
                                     </a>
                                 </div>

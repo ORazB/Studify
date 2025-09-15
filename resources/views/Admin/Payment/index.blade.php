@@ -128,7 +128,7 @@
                         @php $student = $studentMap[$payment->student_id]; @endphp
                         <div class="payment-card bg-white rounded-xl shadow-md overflow-hidden">
                             <!-- Student Header -->
-                            <div class="bg-gradient-to-r from-green-500 to-green-600 p-4 text-white">
+                            <div class="bg-gradient-to-r from-teal-500 to-teal-600 p-4 text-white">
                                 <div class="flex items-center gap-4">
                                     <img src="{{ asset('storage/' . $student->foto) }}"
                                         class="w-16 h-16 rounded-full object-cover border-2 border-white">
@@ -143,7 +143,7 @@
                             </div>
 
                             <!-- Payment Information -->
-                            <div class="p-6">
+                            <div class="px-6">
                                 <div class="mb-4">
 
                                     <!-- Latest Payment -->
@@ -192,7 +192,7 @@
                                     <!-- Actions -->
                                     <div class="flex justify-center items-center gap-2">
                                         <a href="{{ route('payments.store', ['student_id' => $payment->student_id]) }}"
-                                            class="bg-green-700 text-white py-2 px-3 rounded-lg text-sm font-medium hover:bg-green-800 transition-colors">
+                                            class="bg-green-500 text-white py-2 mt-3 px-3 rounded-lg text-sm font-medium hover:bg-green-800 transition-colors">
                                             Approve
                                         </a>
                                     </div>

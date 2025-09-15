@@ -51,7 +51,7 @@ class SppController extends Controller
             'spp_id' => $spp->spp_id
         ]);
 
-        return redirect()->back()->with('success', 'SPP berhasil ditambahkan dan dikaitkan ke siswa.');
+        return redirect()->route('admin.spp.index')->with('success', 'SPP berhasil ditambahkan dan dikaitkan ke siswa.');
     }
 
 
@@ -93,10 +93,19 @@ class SppController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Spp $spp)
+    public function destroy(Spp $spp, Request $request)
     {
-        $spp->delete();
+        $student = Student::findOrFail($request->student);
+        $spp = Spp::findOrFail($student->spp_id);
 
+        $student->update([
+            'spp_id' => null
+        ]);
+        
+        $spp->delete();
+    
         return redirect()->back()->with('success', 'SPP berhasil dihapus.');
     }
+    
+    
 }

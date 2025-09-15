@@ -42,6 +42,7 @@ class PaymentController extends Controller
             'spp_id' => $request->spp_id,
             'amount_paid' => $request->amount_paid,
             'payment_date' => $request->payment_date,
+            'status' => 'pending',
         ]);
 
         Spp::findOrFail($request->spp_id)->update([
