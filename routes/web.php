@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\SppController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UsersController;
@@ -8,6 +7,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\StudentsController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\SppController;
 
 Route::get('/', function () {
     return view('register');

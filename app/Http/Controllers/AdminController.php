@@ -80,7 +80,10 @@ class AdminController extends Controller
     public function sppEdit($id)
     {
         $spp = Spp::findOrFail($id);
-        return view('users.edit', compact('spp'));
+        $students = Student::all();
+        $classes = ClassModel::all();
+
+        return view('admin.spp.edit', compact('spp', 'students', 'classes'));
     }
 
 

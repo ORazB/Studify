@@ -213,7 +213,7 @@
                     <h3 class="text-xl font-medium text-gray-600 mb-2">No Payment Records</h3>
                     <p class="text-gray-500">No payment records have been created yet.</p>
                     <a href="{{ route('admin.payments.create') }}"
-                        class="mt-4 inline-flex items-center gap-2 bg-green-700 text-white py-2 px-4 rounded-lg font-medium hover:bg-green-800 transition-colors">
+                        class="mt-4 inline-flex items-center gap-2 bg-teal-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-green-800 transition-colors">
                         <i class='bx bx-plus'></i>
                         Create First Payment
                     </a>

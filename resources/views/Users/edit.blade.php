@@ -18,7 +18,7 @@
 
 <section class="create bg-gradient-to-br from-teal-100 to-gray-100 flex items-center justify-center min-h-screen p-4">
     <div class="container bg-white p-8 rounded-2xl shadow-lg w-full max-w-md transition-all duration-300 hover:shadow-xl">
-        <h1 class="text-3xl font-bold text-gray-800 mb-3 text-center">Edit Data <br> {{$user->username}}</h1>
+        <h1 class="text-3xl font-bold text-gray-800 mb-3 text-center">Edit User: {{$user->username}}</h1>
         <div class="line w-20 h-1 bg-teal-500 mx-auto mb-6 rounded-full"></div>
 
         <form action="{{ route('users.update', $user->user_id) }}" method="POST" class="space-y-6">

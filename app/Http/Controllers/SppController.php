@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Spp;
 use App\Models\Student;
+use App\Models\ClassModel;
 
 class SppController extends Controller
 {
@@ -68,7 +69,10 @@ class SppController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $spp = Spp::findOrFail($id);
+        $students = Student::all();
+        $classes = ClassModel::all();
+        return view('admin.spp.edit', compact('spp', 'students', 'classes'));
     }
 
     /**
@@ -79,17 +83,20 @@ class SppController extends Controller
         $request->validate([
             'year' => 'required|integer|min:2020|max:2030',
             'month' => 'required|in:January,February,March,April,May,June,July,August,September,October,November,December',
+            'student' => 'required|exists:students,student_id',
             'nominal' => 'required|integer|min:0'
         ]);
-
+    
         $spp->update([
             'year' => $request->year,
             'month' => $request->month,
+            'student_id' => $request->student,
             'nominal' => $request->nominal
         ]);
-
-        return redirect()->back()->with('success', 'SPP berhasil diperbarui.');
+    
+        return redirect()->route('admin.spp.index')->with('success', 'SPP berhasil diperbarui.');
     }
+    
     /**
      * Remove the specified resource from storage.
      */
@@ -101,7 +108,7 @@ class SppController extends Controller
         $student->update([
             'spp_id' => null
         ]);
-        
+
         $spp->delete();
     
         return redirect()->back()->with('success', 'SPP berhasil dihapus.');
