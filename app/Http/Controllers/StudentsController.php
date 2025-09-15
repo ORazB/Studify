@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Student;
 use App\Models\ClassModel;
 use App\Models\Users;
+use App\Models\Spp;
 
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +21,9 @@ class StudentsController extends Controller
     {
         $userId = session('user_id');
 
-        $students = Student::where('user_id', $userId)->get();
+        $students = Student::where('user_id', $userId)
+            ->with('spp') // eager load spp
+            ->get();
 
         return view('students.index', compact('students'));
     }

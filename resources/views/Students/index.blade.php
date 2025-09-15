@@ -50,7 +50,7 @@
                         <a href="#"
                             class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-lg font-medium transition-colors">
                             <i class='bx bx-credit-card text-xl mr-3'></i>
-                            Pembayaran
+                            Riwayat Pembayaran
                         </a>
                     </li>
                 </ul>
@@ -121,47 +121,48 @@
 
                                 <!-- Profile Info -->
                                 <div class="flex-1">
-                                    <h2 class="text-xl font-bold text-gray-800 mb-2">Selamat Datang, {{ $student->name }}
-                                        </h2>
-                                            <p class="text-gray-500 text-sm mb-4">Kelola pembayaran SPP Anda dengan
-                                                mudah</p>
+                                    <h2 class="text-xl font-bold text-gray-800 mb-2">Selamat Datang,
+                                        {{ $student->name }}
+                                    </h2>
+                                    <p class="text-gray-500 text-sm mb-4">Kelola pembayaran SPP Anda dengan
+                                        mudah</p>
 
-                                            <!-- Info Grid -->
-                                            <div class="grid grid-cols-2 gap-3">
-                                                <div class="flex items-center space-x-2">
-                                                    <i class='bx bx-calendar text-gray-400'></i>
-                                                    <div>
-                                                        <div class="text-xs text-gray-400">Umur</div>
-                                                        <div class="text-sm font-medium">{{ $student->age }} Tahun</div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="flex items-center space-x-2">
-                                                    <i class='bx bx-id-card text-gray-400'></i>
-                                                    <div>
-                                                        <div class="text-xs text-gray-400">NIS</div>
-                                                        <div class="text-sm font-medium">{{ $student->nis }}</div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="flex items-center space-x-2">
-                                                    <i class='bx bx-phone text-gray-400'></i>
-                                                    <div>
-                                                        <div class="text-xs text-gray-400">No. HP</div>
-                                                        <div class="text-sm font-medium">
-                                                            {{ $student->phone_number ?? 'Tidak ada' }}</div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="flex items-center space-x-2">
-                                                    <i class='bx bx-map text-gray-400'></i>
-                                                    <div>
-                                                        <div class="text-xs text-gray-400">Alamat</div>
-                                                        <div class="text-sm font-medium">
-                                                            {{ Str::limit($student->address ?? 'Tidak ada', 20) }}</div>
-                                                    </div>
-                                                </div>
+                                    <!-- Info Grid -->
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div class="flex items-center space-x-2">
+                                            <i class='bx bx-calendar text-gray-400'></i>
+                                            <div>
+                                                <div class="text-xs text-gray-400">Umur</div>
+                                                <div class="text-sm font-medium">{{ $student->age }} Tahun</div>
                                             </div>
+                                        </div>
+
+                                        <div class="flex items-center space-x-2">
+                                            <i class='bx bx-id-card text-gray-400'></i>
+                                            <div>
+                                                <div class="text-xs text-gray-400">NIS</div>
+                                                <div class="text-sm font-medium">{{ $student->nis }}</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center space-x-2">
+                                            <i class='bx bx-phone text-gray-400'></i>
+                                            <div>
+                                                <div class="text-xs text-gray-400">No. HP</div>
+                                                <div class="text-sm font-medium">
+                                                    {{ $student->phone_number ?? 'Tidak ada' }}</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center space-x-2">
+                                            <i class='bx bx-map text-gray-400'></i>
+                                            <div>
+                                                <div class="text-xs text-gray-400">Alamat</div>
+                                                <div class="text-sm font-medium">
+                                                    {{ Str::limit($student->address ?? 'Tidak ada', 20) }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -175,8 +176,12 @@
                                 </div>
                             </div>
 
-                            @if (isset($spp) && $spps && $spp->count() > 0)
-                                @foreach ($spps as $spp)
+                            @foreach ($students as $student)
+                                @php
+                                    $spp = $student->spp;
+                                @endphp
+
+                                @if ($spp)
                                     <!-- Current Payment Card -->
                                     <div class="bg-[#7AE2CF] rounded-2xl p-6 text-black mb-6 relative overflow-hidden">
                                         <div class="flex items-center justify-between mb-4">
@@ -197,40 +202,23 @@
 
                                         <div class="mb-4">
                                             <div class="text-sm mb-1">Jumlah SPP</div>
-                                            <div class="text-2xl font-bold">Rp
-                                                {{ number_format($spp->amount, 0, ',', '.') }}</div>
+                                            <div class="text-2xl font-bold">
+                                                Rp {{ number_format($spp->nominal, 0, ',', '.') }}
+                                            </div>
                                         </div>
 
                                         <div class="flex items-center justify-between">
-                                            <div>
-                                                <div class="text-sm">Jatuh Tempo</div>
-                                                <div class="font-semibold">{{ $spp->due_date->format('d F Y') }}</div>
-                                            </div>
-
-                                            @if ($spp->status == 'paid')
-                                                <div class="bg-green-600 text-white px-4 py-2 rounded-lg font-medium">
-                                                    <i class='bx bx-check mr-1'></i>
-                                                    Lunas
-                                                </div>
-                                            @elseif($spp->status == 'pending')
-                                                <div class="bg-yellow-600 text-white px-4 py-2 rounded-lg font-medium">
-                                                    <i class='bx bx-time mr-1'></i>
-                                                    Pending
-                                                </div>
-                                            @else
-                                                <form action="{{ route('spp.pay', $spp->id) }}" method="POST"
-                                                    class="inline">
-                                                    @csrf
-                                                    <input type="hidden" name="spp_id" value="{{ $spp->id }}">
-                                                    <input type="hidden" name="student_id"
-                                                        value="{{ $student->id }}">
-                                                    <input type="hidden" name="amount" value="{{ $spp->amount }}">
-                                                    <button type="submit"
-                                                        class="bg-gray-900 text-white px-4 py-2 rounded-lg font-medium hover:bg-gray-800 transition-colors">
-                                                        Bayar Sekarang
-                                                    </button>
-                                                </form>
-                                            @endif
+                                            <form action="{{ route('login', $spp->id) }}" method="POST"
+                                                class="inline">
+                                                @csrf
+                                                <input type="hidden" name="spp_id" value="{{ $spp->id }}">
+                                                <input type="hidden" name="student_id" value="{{ $student->id }}">
+                                                <input type="hidden" name="amount" value="{{ $spp->amount }}">
+                                                <button type="submit"
+                                                    class="bg-gray-900 text-white px-4 py-2 rounded-lg font-medium hover:bg-gray-800 transition-colors">
+                                                    Bayar Sekarang
+                                                </button>
+                                            </form>
                                         </div>
 
                                         <!-- Decorative circles -->
@@ -238,28 +226,18 @@
                                         <div class="absolute -right-8 -bottom-8 w-24 h-24 bg-white/5 rounded-full">
                                         </div>
                                     </div>
-                                @endforeach
-
-                                <!-- Next Payment Info -->
-                                @if ($nextSpp)
-                                    <div class="flex items-center space-x-2 text-gray-600">
-                                        <i class='bx bx-info-circle text-sm'></i>
-                                        <div class="text-sm">
-                                            <span class="font-medium">SPP Berikutnya:</span>
-                                            <span class="text-gray-800 font-semibold ml-1">Rp
-                                                {{ number_format($nextSpp->amount, 0, ',', '.') }}</span>
-                                        </div>
+                                @else
+                                    <!-- No SPP Data -->
+                                    <div class="bg-gray-100 rounded-2xl p-8 text-center">
+                                        <i class='bx bx-file-blank text-4xl text-gray-400 mb-4'></i>
+                                        <h3 class="text-lg font-semibold text-gray-600 mb-2">Belum Ada Data SPP</h3>
+                                        <p class="text-gray-500 text-sm">
+                                            Data SPP belum tersedia. Silakan hubungi admin sekolah.
+                                        </p>
                                     </div>
                                 @endif
-                            @else
-                                <!-- No SPP Data -->
-                                <div class="bg-gray-100 rounded-2xl p-8 text-center">
-                                    <i class='bx bx-file-blank text-4xl text-gray-400 mb-4'></i>
-                                    <h3 class="text-lg font-semibold text-gray-600 mb-2">Belum Ada Data SPP</h3>
-                                    <p class="text-gray-500 text-sm">Data SPP belum tersedia. Silakan hubungi admin
-                                        sekolah.</p>
-                                </div>
-                            @endif
+                            @endforeach
+
                         </div>
                     </div>
                 </div>
