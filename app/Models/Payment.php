@@ -10,6 +10,8 @@ class Payment extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
+        'student_id',
+        'spp_id',
         'amount_paid',
         'payment_date',
     ];

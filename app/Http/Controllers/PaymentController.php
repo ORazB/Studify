@@ -33,54 +33,31 @@ class PaymentController extends Controller
     public function store(Request $request)
     {
         // Validation rules
-        $validator = Validator::make($request->all(), [
-            'student_id' => 'required|exists:students,id',
-            'spp_id' => 'nullable|exists:spp,id',
-            'amount_paid' => 'required|integer|min:1000',
-            'payment_date' => 'required|date|before_or_equal:today',
+
+        // Check if SPP belongs to the selected student
+
+        // Create the payment
+        Payment::create([
+            'student_id' => $request->student_id,
+            'spp_id' => $request->spp_id,
+            'amount_paid' => $request->amount_paid,
+            'payment_date' => $request->payment_date,
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
+        Spp::findOrFail($request->spp_id)->update([
+            'status' => 'pending'
+        ]);
 
-        // Additional validation: Check if SPP belongs to the selected student
-        if ($request->spp_id) {
-            $spp = Spp::find($request->spp_id);
-            if ($spp && $spp->student_id != $request->student_id) {
-                return redirect()->back()
-                    ->withErrors(['spp_id' => 'The selected SPP does not belong to the chosen student.'])
-                    ->withInput();
-            }
-        }
+        // Get student name for success message
+        $student = Student::find($request->student_id);
+        $studentName = $student ? $student->name : 'Unknown Student';
 
-        try {
-            // Create the payment
-            $payment = Payment::create([
-                'student_id' => $request->student_id,
-                'spp_id' => $request->spp_id,
-                'amount_paid' => $request->amount_paid,
-                'payment_date' => $request->payment_date,
-            ]);
-
-            // Get student name for success message
-            $student = Student::find($request->student_id);
-            $studentName = $student ? $student->name : 'Unknown Student';
-
-            return redirect()->route('admin.payments.index')
-                ->with('success', "Payment of Rp " . number_format($request->amount_paid, 0, ',', '.') . " for {$studentName} has been recorded successfully.");
-
-        } catch (\Exception $e) {
-            return redirect()->back()
-                ->withErrors(['error' => 'Failed to create payment. Please try again.'])
-                ->withInput();
-        }
+        return redirect()->refresh()
+            ->with('success', "Payment of Rp " . number_format($request->amount_paid, 0, ',', '.') . " for {$studentName} has been recorded successfully.");
     }
 
     /**
-     * Display the specified resource.
+ * Display the specified resource.
      */
     public function show(Payment $payment)
     {

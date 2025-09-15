@@ -47,11 +47,7 @@ class UsersController extends Controller
             'role' => $validated['role'],
         ]);
 
-        if (Route::currentRouteName() == "users.store") {
-            return redirect()->route('users.index')->with('success', 'User Added Successfully.');
-        } else {
-            return redirect()->back();
-        }
+        return redirect()->route('login')->with('success', 'User Added Successfully.');
     }
 
     /**
