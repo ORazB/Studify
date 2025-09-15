@@ -191,7 +191,7 @@
                                             </div>
                                             <div class="bg-white/20 px-3 py-1 rounded-full text-xs font-medium">
                                                 @if ($spp->status == 'paid')
-                                                    @continue
+                                                    Sudah Dibayar
                                                 @elseif($spp->status == 'pending')
                                                     Menunggu Konfirmasi
                                                 @else
@@ -200,25 +200,31 @@
                                             </div>
                                         </div>
 
-                                        <div class="mb-4">
-                                            <div class="text-sm mb-1">Jumlah SPP</div>
-                                            <div class="text-2xl font-bold">
-                                                Rp {{ number_format($spp->nominal, 0, ',', '.') }}
+                                        @if ($spp->status != 'paid')
+                                            <div class="mb-4">
+                                                <div class="text-sm mb-1">Jumlah SPP</div>
+                                                <div class="text-2xl font-bold">
+                                                    Rp {{ number_format($spp->nominal, 0, ',', '.') }}
+                                                </div>
                                             </div>
-                                        </div>
+                                        @endif
 
                                         <div class="flex items-center justify-between">
                                             <form action="{{ route('payments.store', $spp->spp_id) }}" method="POST"
                                                 class="inline">
                                                 @csrf
                                                 <input type="hidden" name="spp_id" value="{{ $spp->spp_id }}">
-                                                <input type="hidden" name="student_id" value="{{ $student->student_id }}">
+                                                <input type="hidden" name="student_id"
+                                                    value="{{ $student->student_id }}">
                                                 <input type="hidden" name="amount_paid" value="{{ $spp->nominal }}">
-                                                <input type="hidden" name="payment_date" value="{{ now()->format('Y-m-d H:i') }}">
-                                                <button type="submit"
-                                                    class="bg-gray-900 text-white px-4 py-2 rounded-lg font-medium hover:bg-gray-800 transition-colors">
-                                                    Bayar Sekarang
-                                                </button>
+                                                <input type="hidden" name="payment_date"
+                                                    value="{{ now()->format('Y-m-d H:i') }}">
+                                                @if ($spp->status != 'paid')
+                                                    <button type="submit"
+                                                        class="bg-gray-900 text-white px-4 py-2 rounded-lg font-medium hover:bg-gray-800 transition-colors">
+                                                        Bayar Sekarang
+                                                    </button>
+                                                @endif
                                             </form>
                                         </div>
 
@@ -243,7 +249,7 @@
                     </div>
                 </div>
             @else
-            <div class="min-h-screen flex items-center justify-center bg-gray-50">
+                <div class="min-h-screen flex items-center justify-center bg-gray-50">
                     <div class="text-center bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
                         <i class='bx bx-user-plus text-6xl text-gray-300 mb-4'></i>
                         <h2 class="text-xl font-bold text-gray-800 mb-2">Profile Belum Lengkap</h2>
