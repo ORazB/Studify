@@ -53,7 +53,7 @@ class StudentsController extends Controller
             'class_id' => 'required|exists:classes,class_id',
         ]);
 
-        // Handle file upload if exists
+        // Handle file upload
         $fotoPath = null;
         if ($request->hasFile('foto')) {
             $fotoPath = $request->file('foto')->store('students', 'public');

@@ -44,7 +44,7 @@
                         <a href="#"
                             class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-lg font-medium transition-colors">
                             <i class='bx bx-credit-card text-xl mr-3'></i>
-                            Pembayaran
+                            Riwayat Pembayaran
                         </a>
                     </li>
                 </ul>

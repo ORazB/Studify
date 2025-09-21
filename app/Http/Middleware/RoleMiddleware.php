@@ -8,23 +8,32 @@ class RoleMiddleware
 {
     public function handle($request, Closure $next, ...$roles)
     {
-        $role = session('role');
+        $userRole = session('role');
 
-        if (!$role || !in_array($role, $roles)) {
-            if ($role === 'admin') {
+        // If no session, redirect to login
+        if (!$userRole) {
+            return redirect()->route('login');
+        }
+
+        // Check if user's role is in the allowed roles
+        if (!in_array($userRole, $roles)) {
+            // Redirect based on their actual role
+            if ($userRole === 'admin') {
                 return redirect()->route('users.index')
                     ->with('error', 'You do not have permission to access that page.');
             }
 
-            if ($role === 'student') {
+            if ($userRole === 'student') {
                 return redirect()->route('students.index')
                     ->with('error', 'You do not have permission to access that page.');
             }
 
-            // if no session at all
-            return redirect()->route('login');
+            // Fallback redirect if role doesn't match expected ones
+            return redirect()->route('login')
+                ->with('error', 'You do not have permission to access that page.');
         }
 
+        // If user has the required role, allow access
         return $next($request);
     }
 }

@@ -14,6 +14,7 @@ class Payment extends Model
         'spp_id',
         'amount_paid',
         'payment_date',
+        'image',
         'status',
     ];
 

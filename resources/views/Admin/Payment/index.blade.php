@@ -1,13 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-@if (!session('role') == 'admin')
-    <script>
-        window.location.href = '/login';
-        alert('Access denied. Admins only.');
-    </script>
-@endif
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -97,11 +90,18 @@
                     <h1 class="text-3xl font-bold text-gray-800">Payment Management</h1>
                     <div class="flex gap-4">
                         <div class="bg-teal-100 px-4 py-2 rounded-lg">
-                            <span class="text-teal-700 font-medium">Total Payments: {{ count($payments) }}</span>
+                            <span class="text-teal-700 font-medium">Total Payments:
+                                {{ $payments->filter(fn($p) => trim(strtolower($p->status)) != 'paid')->count() }}</span>
                         </div>
                         <div class="bg-green-100 px-4 py-2 rounded-lg">
                             <span class="text-green-700 font-medium">Total Revenue: Rp
-                                {{ number_format($payments->sum('amount_paid'), 0, ',', '.') }}</span>
+                                {{ number_format(
+                                    $payments->filter(fn($p) => trim(strtolower($p->status)) != 'disapproved')->sum('amount_paid'),
+                                    0,
+                                    ',',
+                                    '.',
+                                ) }}
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -124,7 +124,7 @@
                 @endphp
 
                 @foreach ($payments as $payment)
-                    @if ($payment->status != 'paid')
+                    @if ($payment->status != 'disapproved' && $payment->status != 'paid')
                         @php $student = $studentMap[$payment->student_id]; @endphp
                         <div class="payment-card bg-white rounded-xl shadow-md overflow-hidden">
                             <!-- Student Header -->
@@ -159,7 +159,7 @@
                                             <div>
                                                 <span class="text-gray-600">Amount:</span>
                                                 <span class="font-medium text-green-600">Rp
-                                                    {{ number_format($latestPayment->amount_paid, 0, ',', '.') }}</span>
+                                                    {{ number_format($payment->amount_paid, 0, ',', '.') }}</span>
                                             </div>
                                         </div>
                                         @if ($latestPayment->spp)
@@ -172,21 +172,28 @@
                                     </div>
 
                                     <!-- Payment Statistics -->
-                                    <div class="grid grid-cols-2 gap-2 mb-3">
+                                    <div class="grid grid-cols-2 gap-2 mb-3 place-items-center">
                                         <div class="bg-blue-50 rounded-lg p-3">
                                             <div class="text-center">
                                                 <span
-                                                    class="text-blue-700 font-bold text-lg">{{ $payments->count() }}</span>
+                                                    class="text-blue-700 font-bold text-lg">{{ $payments->where('status', '!=', 'disapproved')->count() }}
+                                                </span>
                                                 <p class="text-blue-600 text-xs">Total Payments</p>
                                             </div>
                                         </div>
                                         <div class="bg-green-50 rounded-lg p-3">
                                             <div class="text-center">
                                                 <span class="text-green-700 font-bold text-sm">Rp
-                                                    {{ number_format($payments->sum('amount_paid'), 0, ',', '.') }}</span>
+                                                    {{ number_format($payment->amount_paid) }}</span>
                                                 <p class="text-green-600 text-xs">Total Amount</p>
                                             </div>
                                         </div>
+                                    </div>
+
+                                    <div class="text-center mt-4">
+                                        <a target="_blank" href={{asset('storage/' . $payment->image)}} class="bg-teal-600 hover:bg-teal-700 text-white font-medium py-2 px-4 rounded-lg transition-colors inline-block">
+                                            View Bukti Pembayaran
+                                        </a>
                                     </div>
 
                                     <!-- Actions -->
@@ -194,11 +201,18 @@
                                         <form action="{{ route('payments.update', $payment) }}" method="POST">
                                             @csrf
                                             @method('PUT')
-                                            <button type="submit"
+
+                                            <button type="submit" name="status" value="approved"
                                                 class="bg-green-500 text-white py-2 mt-3 px-3 rounded-lg text-sm font-medium hover:bg-green-800 transition-colors">
                                                 Approve
                                             </button>
+
+                                            <button type="submit" name="status" value="disapproved"
+                                                class="bg-red-500 text-white py-2 mt-3 px-3 rounded-lg text-sm font-medium hover:bg-red-800 transition-colors">
+                                                Disapprove
+                                            </button>
                                         </form>
+
 
 
                                     </div>

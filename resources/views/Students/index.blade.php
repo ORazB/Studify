@@ -6,7 +6,7 @@
 @endif --}}
 
 @php
-    $student = $students->first();
+    $student = $students->where('user_id', session('user_id'))->first();
 @endphp
 
 <!DOCTYPE html>
@@ -54,11 +54,12 @@
 
                     <!-- Pembayaran -->
                     <li>
-                        <a href="#"
+                        <a href="{{ route('payments.index', ['student_id' => $student->student_id]) }}"
                             class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-lg font-medium transition-colors">
                             <i class='bx bx-credit-card text-xl mr-3'></i>
                             Riwayat Pembayaran
                         </a>
+
                     </li>
                 </ul>
             </nav>
@@ -207,7 +208,7 @@
                                             </div>
                                         </div>
 
-                                        @if ($spp->status != 'paid')
+                                        @if ($spp->status != 'paid' && $spp->status != 'pending')
                                             <div class="mb-4">
                                                 <div class="text-sm mb-1">Jumlah SPP</div>
                                                 <div class="text-2xl font-bold">
@@ -217,7 +218,7 @@
                                         @endif
 
                                         <div class="flex items-center justify-between">
-                                            <form action="{{ route('payments.store', $spp->spp_id) }}" method="POST"
+                                            <form action="{{ route('payments.create', $spp->spp_id) }}" method="GET"
                                                 class="inline">
                                                 @csrf
                                                 <input type="hidden" name="spp_id" value="{{ $spp->spp_id }}">
@@ -226,7 +227,7 @@
                                                 <input type="hidden" name="amount_paid" value="{{ $spp->nominal }}">
                                                 <input type="hidden" name="payment_date"
                                                     value="{{ now()->format('Y-m-d H:i') }}">
-                                                @if ($spp->status != 'paid')
+                                                @if ($spp->status != 'paid' && $spp->status != 'pending')
                                                     <button type="submit"
                                                         class="bg-gray-900 text-white px-4 py-2 rounded-lg font-medium hover:bg-gray-800 transition-colors">
                                                         Bayar Sekarang

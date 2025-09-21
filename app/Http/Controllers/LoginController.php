@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Users;
-use App\Models\Students;
+use App\Models\Student;
 
 class LoginController extends Controller
 {
@@ -34,7 +34,15 @@ class LoginController extends Controller
             if ($user->role === 'admin') {
                 return redirect()->route(route: 'users.index');
             } else if ($user->role === 'student') {
-                return redirect()->route('students.create');
+
+                $student = Student::where('user_id', $user->user_id)->first();
+
+                if ($student) {
+                    return redirect()->route('students.index');
+                } else {
+                    return redirect()->route('students.create');
+                }
+
             } else {
                 return back()->with('error', 'Role not recognized');
             }
