@@ -19,7 +19,7 @@ class RoleMiddleware
         if (!in_array($userRole, $roles)) {
             // Redirect based on their actual role
             if ($userRole === 'admin') {
-                return redirect()->route('users.index')
+                return redirect()->route(route: 'users.index')
                     ->with('error', 'You do not have permission to access that page.');
             }
 

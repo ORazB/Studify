@@ -112,7 +112,6 @@
                 </a> --}}
             </div>
 
-            <!-- Students Payment Cards (Grouped by Student) -->
             <div class="ml-8 mr-8 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                 @php
                     $classes = [
@@ -212,9 +211,7 @@
                                                 Disapprove
                                             </button>
                                         </form>
-
-
-
+                                        
                                     </div>
                                 </div>
 

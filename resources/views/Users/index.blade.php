@@ -73,7 +73,7 @@
                     </div>
                     <div class="ml-8 my-4 gap-8 flex w-fit justify-center items-center">
                         <h1 class="text-2xl font-semibold">Users</h1>
-                        <a href="./create" class="bg-teal-700 cursor-pointer py-2 px-4 text-white font-medium rounded-lg">Add
+                        <a href={{route('users.create')}} class="bg-teal-700 cursor-pointer py-2 px-4 text-white font-medium rounded-lg">Add
                             new</a>
                     </div>
                     <div class="w-[85%] ml-8 rounded-xl p-8 pt-2 bg-[#fff] shadow">

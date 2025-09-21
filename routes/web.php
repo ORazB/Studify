@@ -41,7 +41,7 @@ Route::middleware('role:admin')->group(function () {
 });
 
 // ----------------------
-// Admin Display Routes (GET pages only)
+// Admin Display Routes (GET pages only)    
 // ----------------------
 Route::prefix('admin')->name('admin.')->middleware('role:admin')->group(function () {
     // Students Display
